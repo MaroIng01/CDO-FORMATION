@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'accueil_page.dart';
+import 'main_navigation.dart'; // Assure-toi que ce fichier est bien importé
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const AccueilPage()),
+        MaterialPageRoute(builder: (_) => const MainNavigation()),
       );
     });
   }

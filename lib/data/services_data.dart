@@ -1,32 +1,23 @@
 import '../models/service.dart';
+import '../models/sous_service.dart';
 
 final List<Service> services = [
   Service(
-    name: 'Développement Web',
+    id: 1,
+    name: 'Formations de formateurs',
+    description: 'Description complète de la formation de formateurs',
+    imagePath: 'lib/logos/formation_formateurs.jpg',
     sousServices: [
-      SousService(title: 'Site vitrine', url: 'https://example.com/site-vitrine'),
-      SousService(title: 'E-commerce', url: 'https://example.com/e-commerce'),
+      SousService(name: 'Sous-service 1', url: 'https://exemple.com'),
+      SousService(name: 'Sous-service 2', url: 'https://exemple.com'),
     ],
   ),
   Service(
-    name: 'Design Graphique',
-    sousServices: [
-      SousService(title: 'Logo', url: 'https://example.com/logo'),
-      SousService(title: 'Charte graphique', url: 'https://example.com/charte'),
-    ],
+    id: 2,
+    name: 'Formation en partenariat avec la CARSAT CVL',
+    description: 'Description formation en partenariat avec la CARSAT CVL',
+    imagePath: 'lib/logos/carsat_cvl.jpg',
+    sousServices: [],
   ),
-  Service(
-    name: 'Marketing Digital',
-    sousServices: [
-      SousService(title: 'SEO', url: 'https://example.com/seo'),
-      SousService(title: 'Campagnes Ads', url: 'https://example.com/ads'),
-    ],
-  ),
-  Service(
-    name: 'Développement Mobile',
-    sousServices: [
-      SousService(title: 'Application Android', url: 'https://example.com/android'),
-      SousService(title: 'Application iOS', url: 'https://example.com/ios'),
-    ],
-  ),
+  // Ajoute les autres services avec les champs requis...
 ];

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'services_page.dart';
 
 class AccueilPage extends StatefulWidget {
-  const AccueilPage({super.key});
+  final VoidCallback? onNavigateToServices;
+
+  const AccueilPage({super.key, this.onNavigateToServices});
 
   @override
   State<AccueilPage> createState() => _AccueilPageState();
@@ -16,25 +17,8 @@ class _AccueilPageState extends State<AccueilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Color(0xFFbb2d3b)),
-              child: Text(
-                'Menu',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-            drawerItem('Accueil'),
-            drawerItem('Nos formations'),
-            drawerItem('Audit et conseils'),
-            drawerItem('Infos pratiques'),
-            drawerItem('FAQ'),
-          ],
-        ),
-      ),
+
+
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           final offset = scrollNotification.metrics.pixels;
@@ -54,9 +38,7 @@ class _AccueilPageState extends State<AccueilPage> {
               iconTheme: const IconThemeData(color: Colors.black),
               flexibleSpace: LayoutBuilder(
                 builder: (context, constraints) {
-                  var top = constraints.biggest.height;
                   return FlexibleSpaceBar(
-                    centerTitle: false,
                     titlePadding: const EdgeInsets.only(right: 16, bottom: 16),
                     title: AnimatedOpacity(
                       duration: const Duration(milliseconds: 300),
@@ -64,12 +46,11 @@ class _AccueilPageState extends State<AccueilPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Image.asset('lib/logos/header-logo.jpg', height: 30),
-                          const SizedBox(width: 10),
-                          Image.asset(
-                            'lib/logos/logo-qualiopi-2022.png',
-                            height: 30,
+                          Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: Image.asset('lib/logos/header-logo.jpg', height: 30),
                           ),
+                          Image.asset('lib/logos/logo-qualiopi-2022.png', height: 30),
                         ],
                       ),
                     ),
@@ -105,18 +86,17 @@ class _AccueilPageState extends State<AccueilPage> {
                         foregroundColor: Colors.white,
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const ServicesPage(),
-                          ),
-                        );
+                        if (widget.onNavigateToServices != null) {
+                          widget.onNavigateToServices!();
+                        } else {
+                          // fallback: par exemple navigation directe (pas recommandé si tu utilises BottomNavigationBar)
+                          Navigator.pushNamed(context, '/services');
+                        }
                       },
                       child: const Text('Voir les services'),
                     ),
                     const SizedBox(height: 40),
 
-                    // ===== SECTION 1 : Informations =====
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -124,7 +104,7 @@ class _AccueilPageState extends State<AccueilPage> {
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 0, 0, 0),
+                          color: Colors.black,
                         ),
                       ),
                     ),
@@ -133,12 +113,12 @@ class _AccueilPageState extends State<AccueilPage> {
                     infoCard(
                       imagePath: 'lib/logos/26_ind.jpg',
                       title: 'FORMACONNECT enfin arrivée',
-                      url: 'https://formaconnect.com/inscription.php',
+                      url: 'https://cdo-formation.fr/actualites-v2.php?actu=26',
                       date: '01 jan 2023',
                       description:
-                          'Le logiciel qui connecte les OF et les intervenants. Accéder au site formaconnect.\n\n'
+                          'Le logiciel qui connecte les OF et les intervenants. Accéder au site formaconnect\n\n'
                           'Vous proposez des formations, et vous cherchez des formateurs disponibles selon l\'intitulé de la formation, le lieu de la mission, les dates d\'intervention.\n\n'
-                          'Vous êtes formateur intervenant, et vous cherchez des missions de formation ? Proposez vos compétences selon vos disponibilités. Accéder au site formaconnect.',
+                          'Vous êtes formateur intervenant, et vous cherchez des missions de formation ? Proposez vos compétences selon vos disponibilités. Accéder au site formaconnect',
                     ),
                     const SizedBox(height: 20),
 
@@ -150,12 +130,10 @@ class _AccueilPageState extends State<AccueilPage> {
                       date: '13 déc 2020',
                       description:
                           'Dès la rentrée 2021, toutes nos formations de secteur médico-Social, en particulier la PRAP 2S et APS ASD comporteront l\'accompagnement à la mobilité. \n'
-                          'Ainsi, tous les MAC de ces deux domaines  seront organisés comme session ALM',
+                          'Ainsi, tous les MAC de ces deux domaines seront organisés comme session ALM',
                     ),
-
                     const SizedBox(height: 40),
 
-                    // ===== SECTION 2 : Actualités =====
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -163,20 +141,45 @@ class _AccueilPageState extends State<AccueilPage> {
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFbb2d3b),
+                          color: Colors.black,
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
 
                     infoCard(
-                      imagePath: 'lib/logos/actu1.jpg',
-                      title: 'Titre Actualité',
-                      url: 'https://example.com',
-                      date: '20 jan 2023',
+                      imagePath: 'lib/logos/21_ind.jpg',
+                      title: 'ALM Evolution des formations prap 2S et APS ASD',
+                      url: 'https://cdo-formation.fr/actualites-v2.php?actu=20',
+                      date: '13 déc 2020',
                       description:
-                          'Contenu de l\'actualité. Accéder au site pour en savoir plus.',
+                          'L\'apprentissage des techniques de manutention pour les personnes à mobilité réduite, a connu ses limites.\n'
+                          'La sinistralité importante dans le secteur a amené le réseau prévention à aller vers un portage non délétère pour ne pas dire le portage ZERO: de la manutention à l\'accompagnement à la mobilité.',
                     ),
+                    const SizedBox(height: 20),
+
+                    infoCard(
+                      imagePath: 'lib/logos/24_ind.jpg',
+                      title:
+                          'Pour la contamination COVID-19, CDO FORMATION s\'engage',
+                      url: 'https://cdo-formation.fr/actualites-v2.php?actu=24',
+                      date: '18 août 2020',
+                      description:
+                          'Nous avons ainsi mis en place une stratégie préventive pour protéger nos clients et nos collaborateurs.\n'
+                          'Tous nos protocoles'
+                          'Questionnaire symptômes',
+                    ),
+                    const SizedBox(height: 20),
+
+                    infoCard(
+                      imagePath: 'lib/logos/header-logo.jpg',
+                      title: 'Un nouveau dispositif pour les EHPAD',
+                      url: 'https://cdo-formation.fr/actualites-v2.php?actu=17',
+                      date: '01 oct 2015',
+                      description:
+                          'Le dispositif HAPA est une réponse élaborée par la profession, et destinée aux établissements d\'hébergement et aide aux personnes âgées.',
+                    ),
+                    const SizedBox(height: 40),
                   ],
                 ),
               ),
@@ -187,11 +190,6 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  ListTile drawerItem(String title) {
-    return ListTile(title: Text(title), onTap: () => Navigator.pop(context));
-  }
-
-  /// Widget personnalisé pour les cartes d'information ou d'actualité
   Widget infoCard({
     required String imagePath,
     required String title,
@@ -209,7 +207,6 @@ class _AccueilPageState extends State<AccueilPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              // Pour centrer l’image
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.asset(imagePath, height: 180, fit: BoxFit.cover),
@@ -222,7 +219,7 @@ class _AccueilPageState extends State<AccueilPage> {
                 title,
                 style: const TextStyle(
                   fontSize: 18,
-                  color: Color(0xFFbb2d3b),
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -240,39 +237,63 @@ class _AccueilPageState extends State<AccueilPage> {
     );
   }
 
-  /// Sépare la description par "Accéder au site" et insère des liens
   List<Widget> _parseDescription(String text, String url) {
-    List<Widget> widgets = [];
-    List<String> parts = text.split(RegExp(r'Accéder au site[\w\s]*\.?'));
+    final Map<String, String> linksMap = {
+      'Accéder au site formaconnect': 'https://formaconnect.com/inscription.php',
+      'Tous nos protocoles': 'https://cdo-formation.fr/infos-covid-19.php',
+      'Questionnaire symptômes': 'https://cdo-formation.fr/covid-19.php',
+    };
 
-    final matches = RegExp(
-      r'Accéder au site[\w\s]*\.?',
-    ).allMatches(text).toList();
+    final RegExp linkRegex = RegExp(
+      linksMap.keys.map(RegExp.escape).join('|'),
+      caseSensitive: false,
+    );
 
-    for (int i = 0; i < parts.length; i++) {
-      widgets.add(
-        Text(
-          parts[i],
-          style: const TextStyle(fontSize: 14, color: Colors.black),
-        ),
-      );
+    final List<Widget> widgets = [];
+    final matches = linkRegex.allMatches(text).toList();
 
-      if (i < matches.length) {
+    int currentIndex = 0;
+
+    for (final match in matches) {
+      if (match.start > currentIndex) {
         widgets.add(
-          GestureDetector(
-            onTap: () => launchUrl(Uri.parse(url)),
-            child: Text(
-              matches[i].group(0) ?? "Accéder au site",
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color(0xFFbb2d3b),
-                decoration: TextDecoration.underline,
-              ),
-            ),
+          Text(
+            text.substring(currentIndex, match.start),
+            style: const TextStyle(fontSize: 14, color: Colors.black),
           ),
         );
       }
+
+      final matchedText = match.group(0)!;
+      final matchedUrl = linksMap.entries.firstWhere(
+        (entry) => matchedText.toLowerCase().contains(entry.key.toLowerCase()),
+      ).value;
+
+      widgets.add(
+        GestureDetector(
+          onTap: () => launchUrl(Uri.parse(matchedUrl)),
+          child: Text(
+            matchedText,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color(0xFF4c6c7b),
+            ),
+          ),
+        ),
+      );
+
+      currentIndex = match.end;
     }
+
+    if (currentIndex < text.length) {
+      widgets.add(
+        Text(
+          text.substring(currentIndex),
+          style: const TextStyle(fontSize: 14, color: Colors.black),
+        ),
+      );
+    }
+
     return widgets;
   }
 }

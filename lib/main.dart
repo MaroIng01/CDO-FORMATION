@@ -11,10 +11,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Service App',
       debugShowCheckedModeBanner: false,
+      title: 'CDO App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 1,
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          selectedItemColor: Color(0xFFbb2d3b),   // Rouge de l'entreprise
+          unselectedItemColor: Color.fromARGB(255, 121, 136, 144), // Bleu-gris
+          backgroundColor: Colors.white,          // Blanc
+          selectedIconTheme: IconThemeData(color: Color(0xFFbb2d3b)),
+          unselectedIconTheme: IconThemeData(color: Color.fromARGB(255, 121, 136, 144)),
+        ),
       ),
       home: const SplashScreen(),
     );
