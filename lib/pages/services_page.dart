@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/service.dart';
-import 'sous_services_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ServicesPage extends StatefulWidget {
@@ -17,195 +16,266 @@ class _ServicesPageState extends State<ServicesPage> {
     Service(
       id: 1,
       name: 'Formations de formateurs',
-      description: 'CDO Formation est habilité...',
+      description:
+          'CDO Formation est habilité par l\'INRS sous le N° : 222/2011/PRAPIBC-2/11 pour dispenser la formation de formateurs PRAP IBC, et sous le N° : 1498/2012/PRAP2S-2/11 pour dispenser la formation de formateurs PRAP 2S. \n'
+          'Concernant la formation de formateurs SST, nous travaillons avec notre partenaire "MFC-03410" habilité sous le N° : 2492/2013/SST-2/02. Ce dernier assure la formation  de nos clients',
       imagePath: 'lib/logos/reunion.jpg',
       sousServices: [],
+      url: 'https://cdo-formation.fr/formations-v2.php?activeitem=1',
     ),
     Service(
       id: 2,
-      name: 'Formation en partenariat avec la CARSAT CVL',
-      description: 'CDO Formation est habilité...',
+      name: 'Formation avec la CARSAT CVL',
+      description:
+          'Formations réalisées en partenariat avec la CARSAT Centre Val de Loire',
       imagePath: 'lib/logos/reunion.jpg',
       sousServices: [],
+      url: 'https://cdo-formation.fr/formations-v2.php?activeitem=6',
     ),
     Service(
       id: 3,
-      name: 'Formations : Animateurs et Directeurs',
-      description: 'CDO Formation est habilité...',
+      name: 'Animateurs et Directeurs',
+      description:
+          'Un sauveteur secouriste du travail (ou SST) peut sauver des vies sur le lieu de travail, notamment en cas d’accident du travail. Il s’agit d’un membre du personnel ayant reçu l’instruction nécessaire pour donner les premiers secours en cas d’urgence et dans l’attente de l’arrivée des secours spécialisés. La présence de secouristes est obligatoire, selon l’article R. 4224-15 du Code du travail.',
       imagePath: 'lib/logos/reunion.jpg',
       sousServices: [],
+      url: 'https://cdo-formation.fr/formations-v2.php?activeitem=2',
     ),
     Service(
       id: 4,
-      name: 'Formation pour les CSE et CSSCT',
-      description: 'CDO Formation est habilité...',
+      name: 'CSE et CSSCT',
+      description:
+          'Constitué dans tous les établissements occupant au moins 50 salariés, le CHSCT a pour mission de contribuer à la protection de la santé et de la sécurité des salariés ainsi qu’à l’amélioration des conditions de travail. Le CHSCT dispose d’un certain nombre de moyens pour mener à bien sa mission (information, recours à un expert…) et les représentants du personnel disposent d’un crédit d’heures et d’une protection contre le licenciement. Ces moyens sont renforcés dans les entreprises à haut risque industriel. En l’absence de CHSCT, ce sont les délégués du personnel qui exercent les attributions normalement dévolues au comité. ',
       imagePath: 'lib/logos/reunion.jpg',
       sousServices: [],
+      url: 'https://cdo-formation.fr/formations-v2.php?activeitem=4',
     ),
     Service(
       id: 5,
-      name: 'Formations salariés et autres publics',
-      description: 'CDO Formation est habilité...',
+      name: 'Salariés et autres publics',
+      description:
+          'La formation et l’information sont une obligation de l’employeur en matière de prévention des risques professionnels, elles concernent tous les salariés. Au-delà de leur caractère obligatoire, ces formations s’avèrent particulièrement profitables puisqu’en sensibilisant les salariés aux risques professionnels, elles permettent d’assurer la pérennité de l’entreprise en préservant le capital humain et en améliorant sa compétitivité.',
       imagePath: 'lib/logos/reunion.jpg',
       sousServices: [],
+      url: 'https://cdo-formation.fr/formations-v2.php?activeitem=3',
     ),
   ];
 
   final List<Map<String, String>> externalLinks = [
     {
-      'title': 'Notre catalogue de formation',
+      'title': '📘 Notre catalogue de formation',
       'url': 'https://cdo-formation.fr/formations-liste-v2.php',
     },
     {
-      'title': 'Nos sessions inter-entreprises',
+      'title': '📅 Sessions inter-entreprises',
       'url': 'https://cdo-formation.fr/sessions-v2.php',
     },
   ];
 
+  // Couleurs mises à jour
+  static const backgroundColor = Color(0xFFFDFCFB); // blanc cassé
+  static const primaryColor = Color(0xFF2C3E50); // bleu-gris profond
+  static const secondaryColor = Color(0xFFECF0F3); // gris bleuté clair
+  static const textColor = Color(0xFF2E2E2E); // gris foncé
+  static const accentColor = Color(0xFFA83A3A); // rouge bordeaux élégant
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       body: ListView(
-        padding: const EdgeInsets.all(12),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 28),
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12.0),
-            child: Text(
-              'Nos Formations',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(0xFFbb2d3b), // Rouge de l'entreprise
-              ),
-              textAlign: TextAlign.center,
+          Text(
+            'Nos Formations',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 32,
+              fontWeight: FontWeight.w700,
+              color: primaryColor,
+              letterSpacing: 1.5,
+              fontFamily: 'Poppins',
+              shadows: [
+                Shadow(
+                  color: Colors.black12,
+                  blurRadius: 6,
+                  offset: Offset(0, 3),
+                ),
+              ],
             ),
           ),
+          const SizedBox(height: 32),
+
           ...List.generate(services.length, (index) {
             final service = services[index];
             final isExpanded = expandedIndex == index;
 
-            return Card(
-              color: Colors.white,
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              elevation: 4,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+            return AnimatedContainer(
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeInOut,
+              margin: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12.withOpacity(0.06),
+                    blurRadius: 20,
+                    offset: const Offset(0, 8),
+                  ),
+                  BoxShadow(
+                    color: Colors.black12.withOpacity(0.025),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
               ),
-              child: InkWell(
-                onTap: () {
-                  setState(() {
-                    expandedIndex = isExpanded ? null : index;
-                  });
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Stack(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      setState(() {
+                        expandedIndex = isExpanded ? null : index;
+                      });
+                    },
+                    splashColor: accentColor.withOpacity(0.15),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         ClipRRect(
                           borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12),
+                            top: Radius.circular(24),
                           ),
                           child: Image.asset(
                             service.imagePath,
-                            height: 180,
+                            height: 200,
+                            width: double.infinity,
                             fit: BoxFit.cover,
+                            colorBlendMode: BlendMode.softLight,
+                            color: Colors.black.withOpacity(0.06),
                           ),
                         ),
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              color: Color(0xFF4c6c7b),
-                              borderRadius: BorderRadius.vertical(
-                                bottom: Radius.circular(12),
-                              ),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 16,
-                            ),
-                            child: Text(
-                              service.name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 22,
+                            horizontal: 24,
+                          ),
+                          color: primaryColor,
+                          child: Text(
+                            service.name,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: 1.1,
+                              fontFamily: 'Poppins',
                             ),
                           ),
+                        ),
+                        AnimatedCrossFade(
+                          firstChild: const SizedBox.shrink(),
+                          secondChild: Padding(
+                            padding: const EdgeInsets.fromLTRB(24, 22, 24, 32),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  service.description ?? '',
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    color: textColor,
+                                    height: 1.5,
+                                    fontFamily: 'Poppins',
+                                  ),
+                                ),
+                                const SizedBox(height: 26),
+                                ElevatedButton.icon(
+                                  onPressed: () async {
+                                    final urlString = service.url ?? '';
+                                    if (urlString.isNotEmpty) {
+                                      final url = Uri.parse(urlString);
+                                      if (await canLaunchUrl(url)) {
+                                        await launchUrl(url);
+                                      } else {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Impossible d\'ouvrir le lien',
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 18,
+                                  ),
+                                  label: const Text('Voir les formations'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: accentColor,
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 28,
+                                      vertical: 14,
+                                    ),
+                                    elevation: 6,
+                                    shadowColor: accentColor.withOpacity(0.6),
+                                    textStyle: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          crossFadeState: isExpanded
+                              ? CrossFadeState.showSecond
+                              : CrossFadeState.showFirst,
+                          duration: const Duration(milliseconds: 350),
                         ),
                       ],
                     ),
-                    if (isExpanded)
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              service.description ?? '',
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            const SizedBox(height: 12),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                              ),
-                              onPressed: () {
-                                if (service.sousServices.isNotEmpty) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) =>
-                                          SousServicesPage(service: service),
-                                    ),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Pas de formations détaillées disponibles.',
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: const Text('Voir les formations'),
-                            ),
-                          ],
-                        ),
-                      ),
-                  ],
+                  ),
                 ),
               ),
             );
           }),
 
-          // External links section
-          ...externalLinks.map((item) {
+          const SizedBox(height: 40),
+          Divider(thickness: 1.4, color: Colors.grey.shade300),
+          const SizedBox(height: 18),
+          ...externalLinks.map((link) {
             return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8),
-              color: const Color(0xFF4c6c7b), // Fond bleu-gris
+              color: primaryColor,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(22),
               ),
+              margin: const EdgeInsets.symmetric(vertical: 12),
+              elevation: 8,
+              shadowColor: Colors.black38,
               child: ListTile(
                 title: Text(
-                  item['title']!,
+                  link['title']!,
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
                     color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18,
+                    fontFamily: 'Poppins',
                   ),
                 ),
                 trailing: const Icon(Icons.open_in_new, color: Colors.white),
                 onTap: () async {
-                  final url = Uri.parse(item['url']!);
+                  final url = Uri.parse(link['url']!);
                   if (await canLaunchUrl(url)) {
                     await launchUrl(url);
                   } else {
@@ -218,7 +288,8 @@ class _ServicesPageState extends State<ServicesPage> {
                 },
               ),
             );
-          }),
+          }).toList(),
+          const SizedBox(height: 50),
         ],
       ),
     );

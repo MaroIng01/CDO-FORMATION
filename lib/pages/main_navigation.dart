@@ -15,11 +15,23 @@ class MainNavigation extends StatefulWidget {
 class _MainNavigationState extends State<MainNavigation> {
   int _selectedIndex = 0;
 
-  static final List<Widget> _pages = [
-    const AccueilPage(),
-    const ServicesPage(),
-    const MorePage(),
-  ];
+  late final List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = [
+      AccueilPage(
+        onNavigateToServices: () {
+          setState(() {
+            _selectedIndex = 1; // Navigue vers la page Services
+          });
+        },
+      ),
+      const ServicesPage(),
+      const MorePage(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
