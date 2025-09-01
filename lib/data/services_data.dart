@@ -19,5 +19,4 @@ final List<Service> services = [
     imagePath: 'lib/logos/carsat_cvl.jpg',
     sousServices: [],
   ),
-  // Ajoute les autres services avec les champs requis...
 ];

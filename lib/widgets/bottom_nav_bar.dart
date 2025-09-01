@@ -11,8 +11,8 @@ class BottomNavBar extends StatelessWidget {
     required this.onTap,
   });
 
-  static const Color selectedColor = Color(0xFFbb2d3b); // Rouge
-  static const Color unselectedColor = Color(0xFF4c6c7b); // Bleu-gris
+  static const Color selectedColor = Color(0xFFbb2d3b); 
+  static const Color unselectedColor = Color(0xFF4c6c7b); 
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +25,8 @@ class BottomNavBar extends StatelessWidget {
       unselectedFontSize: 12,
       showSelectedLabels: true,
       showUnselectedLabels: true,
-      selectedItemColor: null, // Important: null pour laisser FaIcon gérer la couleur
-      unselectedItemColor: null, // Important aussi
+      selectedItemColor: null, 
+      unselectedItemColor: null,
       items: [
         BottomNavigationBarItem(
           icon: FaIcon(

@@ -5,19 +5,19 @@ import 'package:url_launcher/url_launcher.dart';
 class SousServicesPage extends StatelessWidget {
   final Service service;
 
-  const SousServicesPage({Key? key, required this.service}) : super(key: key);
+  const SousServicesPage({super.key, required this.service});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(service.name),  // PAS de const ici
+        title: Text(service.name),  
       ),
       body: ListView.builder(
         itemCount: service.sousServices.length,
         itemBuilder: (context, index) {
           final sousService = service.sousServices[index];
-          return ListTile(  // PAS de const ici
+          return ListTile(  
             title: Text(sousService.name),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () async {

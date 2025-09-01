@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 class ServiceCard extends StatefulWidget {
   final Service service;
 
-  const ServiceCard({Key? key, required this.service}) : super(key: key);
+  const ServiceCard({super.key, required this.service});
 
   @override
   State<ServiceCard> createState() => _ServiceCardState();
@@ -20,7 +20,7 @@ class _ServiceCardState extends State<ServiceCard> {
     final service = widget.service;
 
     return Card(
-      color: Color(0xFF4c6c7b), // bleu-gris
+      color: Color(0xFF4c6c7b), 
       margin: const EdgeInsets.only(bottom: 16),
       child: InkWell(
         onTap: () {
@@ -35,14 +35,13 @@ class _ServiceCardState extends State<ServiceCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (service.imagePath != null)
-              ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
-                child: Image.asset(service.imagePath!),
-              ),
+            ClipRRect(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
+              child: Image.asset(service.imagePath!),
+            ),
             Container(
               width: double.infinity,
-              color: Color(0xFFbb2d3b), // rouge
+              color: Color(0xFFbb2d3b), 
               padding: const EdgeInsets.all(8),
               child: Text(
                 service.name,

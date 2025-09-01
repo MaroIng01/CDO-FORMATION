@@ -13,7 +13,6 @@ class AccueilPage extends StatefulWidget {
 class _AccueilPageState extends State<AccueilPage> {
   bool showSmallLogos = false;
 
-  // Couleurs et polices harmonisées avec ServicesPage
   static const backgroundColor = Color(0xFFFDFCFB);
   static const primaryColor = Color(0xFF2C3E50);
   static const secondaryColor = Color(0xFFECF0F3);
@@ -144,7 +143,7 @@ class _AccueilPageState extends State<AccueilPage> {
                       url: 'https://cdo-formation.fr/actualites-v2.php?actu=24',
                       date: '18 août 2020',
                       description:
-                          'Nous avons ainsi mis en place une stratégie préventive pour protéger nos clients et nos collaborateurs. Tous nos protocoles. Questionnaire symptômes',
+                          'Nous avons ainsi mis en place une stratégie préventive pour protéger nos clients et nos collaborateurs.\n Tous nos protocoles Questionnaire symptômes',
                     ),
                     infoCard(
                       imagePath: 'lib/logos/header-logo.jpg',
@@ -277,7 +276,7 @@ class _AccueilPageState extends State<AccueilPage> {
             style: const TextStyle(
               fontSize: 15,
               color: accentColor,
-              decoration: TextDecoration.underline,
+              //decoration: TextDecoration.underline,
               fontWeight: FontWeight.w600,
               height: 1.4,
               fontFamily: 'Poppins',

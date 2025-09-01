@@ -3,7 +3,7 @@ import '../models/service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ServicesPage extends StatefulWidget {
-  const ServicesPage({Key? key}) : super(key: key);
+  const ServicesPage({super.key});
 
   @override
   State<ServicesPage> createState() => _ServicesPageState();
@@ -45,7 +45,7 @@ class _ServicesPageState extends State<ServicesPage> {
       id: 4,
       name: 'CSE et CSSCT',
       description:
-          'Constitué dans tous les établissements occupant au moins 50 salariés, le CHSCT a pour mission de contribuer à la protection de la santé et de la sécurité des salariés ainsi qu’à l’amélioration des conditions de travail. Le CHSCT dispose d’un certain nombre de moyens pour mener à bien sa mission (information, recours à un expert…) et les représentants du personnel disposent d’un crédit d’heures et d’une protection contre le licenciement. Ces moyens sont renforcés dans les entreprises à haut risque industriel. En l’absence de CHSCT, ce sont les délégués du personnel qui exercent les attributions normalement dévolues au comité. ',
+          'Constitué dans tous les établissements occupant au moins 50 salariés, le CHSCT a pour mission de contribuer à la protection de la santé et de la sécurité des salariés ainsi qu’à l’amélioration des conditions de travail...',
       imagePath: 'lib/logos/reunion.jpg',
       sousServices: [],
       url: 'https://cdo-formation.fr/formations-v2.php?activeitem=4',
@@ -54,7 +54,7 @@ class _ServicesPageState extends State<ServicesPage> {
       id: 5,
       name: 'Salariés et autres publics',
       description:
-          'La formation et l’information sont une obligation de l’employeur en matière de prévention des risques professionnels, elles concernent tous les salariés. Au-delà de leur caractère obligatoire, ces formations s’avèrent particulièrement profitables puisqu’en sensibilisant les salariés aux risques professionnels, elles permettent d’assurer la pérennité de l’entreprise en préservant le capital humain et en améliorant sa compétitivité.',
+          'La formation et l’information sont une obligation de l’employeur en matière de prévention des risques professionnels...',
       imagePath: 'lib/logos/reunion.jpg',
       sousServices: [],
       url: 'https://cdo-formation.fr/formations-v2.php?activeitem=3',
@@ -72,12 +72,23 @@ class _ServicesPageState extends State<ServicesPage> {
     },
   ];
 
-  // Couleurs mises à jour
-  static const backgroundColor = Color(0xFFFDFCFB); // blanc cassé
-  static const primaryColor = Color(0xFF2C3E50); // bleu-gris profond
-  static const secondaryColor = Color(0xFFECF0F3); // gris bleuté clair
-  static const textColor = Color(0xFF2E2E2E); // gris foncé
-  static const accentColor = Color(0xFFA83A3A); // rouge bordeaux élégant
+  static const backgroundColor = Color(0xFFFDFCFB);
+  static const primaryColor = Color(0xFF2C3E50);
+  static const secondaryColor = Color(0xFFECF0F3);
+  static const textColor = Color(0xFF2E2E2E);
+  static const accentColor = Color(0xFFA83A3A);
+
+  // Nouvelle méthode propre
+  Future<void> openUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Impossible d\'ouvrir le lien')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +178,7 @@ class _ServicesPageState extends State<ServicesPage> {
                             service.name,
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 22,
+                              fontSize: 18,
                               fontWeight: FontWeight.w700,
                               letterSpacing: 1.1,
                               fontFamily: 'Poppins',
@@ -192,29 +203,12 @@ class _ServicesPageState extends State<ServicesPage> {
                                 ),
                                 const SizedBox(height: 26),
                                 ElevatedButton.icon(
-                                  onPressed: () async {
-                                    final urlString = service.url ?? '';
-                                    if (urlString.isNotEmpty) {
-                                      final url = Uri.parse(urlString);
-                                      if (await canLaunchUrl(url)) {
-                                        await launchUrl(url);
-                                      } else {
-                                        ScaffoldMessenger.of(
-                                          context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'Impossible d\'ouvrir le lien',
-                                            ),
-                                          ),
-                                        );
-                                      }
+                                  onPressed: () {
+                                    if (service.url != null && service.url!.isNotEmpty) {
+                                      openUrl(service.url!);
                                     }
                                   },
-                                  icon: const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 18,
-                                  ),
+                                  icon: const Icon(Icons.arrow_forward_ios, size: 18),
                                   label: const Text('Voir les formations'),
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: accentColor,
@@ -274,21 +268,10 @@ class _ServicesPageState extends State<ServicesPage> {
                   ),
                 ),
                 trailing: const Icon(Icons.open_in_new, color: Colors.white),
-                onTap: () async {
-                  final url = Uri.parse(link['url']!);
-                  if (await canLaunchUrl(url)) {
-                    await launchUrl(url);
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Impossible d\'ouvrir le lien'),
-                      ),
-                    );
-                  }
-                },
+                onTap: () => openUrl(link['url']!),
               ),
             );
-          }).toList(),
+          }),
           const SizedBox(height: 50),
         ],
       ),

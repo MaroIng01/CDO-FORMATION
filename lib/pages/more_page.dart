@@ -11,6 +11,18 @@ class MorePage extends StatefulWidget {
 class _MorePageState extends State<MorePage> {
   bool _showCoordinates = false;
 
+  // Fonction commune pour ouvrir un lien externe
+  Future<void> openUrl(String urlString) async {
+    final Uri url = Uri.parse(urlString);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Impossible d’ouvrir le lien')),
+      );
+    }
+  }
+
   void _handleTap(BuildContext context, Map<String, dynamic> item) async {
     final Map<String, String> externalLinks = {
       'Audit et conseils': 'https://cdo-formation.fr/audit-v2.php',
@@ -20,14 +32,7 @@ class _MorePageState extends State<MorePage> {
     };
 
     if (externalLinks.containsKey(item['title'])) {
-      final Uri url = Uri.parse(externalLinks[item['title']]!);
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url, mode: LaunchMode.externalApplication);
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Impossible d’ouvrir le lien')),
-        );
-      }
+      await openUrl(externalLinks[item['title']]!);
     } else {
       Navigator.pushNamed(context, item['route']);
     }
@@ -59,8 +64,10 @@ class _MorePageState extends State<MorePage> {
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
+            // Ajustement de la hauteur totale pour l'animation
+            final double animatedCoordinatesHeight = 220.0; // Hauteur estimée du contenu des coordonnées
             final totalHeight =
-                (moreItems.length + 1) * 80.0 + (moreItems.length) * 12.0 + (_showCoordinates ? 220 : 0);
+                (moreItems.length + 1) * 80.0 + (moreItems.length) * 12.0 + (_showCoordinates ? animatedCoordinatesHeight : 0);
             final topPadding = (constraints.maxHeight - totalHeight - 80) / 2;
 
             return SingleChildScrollView(
@@ -73,7 +80,7 @@ class _MorePageState extends State<MorePage> {
                       child: Text(
                         'Plus',
                         style: TextStyle(
-                          color: Color(0xFF2C3E50),
+                          color: const Color(0xFF2C3E50),
                           fontSize: 26,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.2,
@@ -90,9 +97,9 @@ class _MorePageState extends State<MorePage> {
                           borderRadius: BorderRadius.circular(18),
                           child: Ink(
                             decoration: BoxDecoration(
-                              color: isContact ? Color(0xFFbb2d3b) : Colors.white,
+                              color: isContact ? const Color(0xFFbb2d3b) : Colors.white,
                               borderRadius: BorderRadius.circular(18),
-                              boxShadow: [
+                              boxShadow: const [
                                 BoxShadow(
                                   color: Colors.black12,
                                   blurRadius: 6,
@@ -109,7 +116,7 @@ class _MorePageState extends State<MorePage> {
                                 children: [
                                   Icon(
                                     item['icon'],
-                                    color: isContact ? Colors.white : Color(0xFF4c6c7b),
+                                    color: isContact ? Colors.white : const Color(0xFF4c6c7b),
                                     size: 26,
                                   ),
                                   const SizedBox(width: 16),
@@ -134,8 +141,7 @@ class _MorePageState extends State<MorePage> {
                           ),
                         ),
                       );
-                    }).toList(),
-                    // Nouvelle carte "Nos coordonnées"
+                    }),
                     Padding(
                       padding: const EdgeInsets.only(bottom: 12.0),
                       child: InkWell(
@@ -147,9 +153,9 @@ class _MorePageState extends State<MorePage> {
                         borderRadius: BorderRadius.circular(18),
                         child: Ink(
                           decoration: BoxDecoration(
-                            color: Color(0xFF4c6c7b),
+                            color: const Color(0xFF4c6c7b),
                             borderRadius: BorderRadius.circular(18),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Colors.black26,
                                 blurRadius: 8,
@@ -161,7 +167,7 @@ class _MorePageState extends State<MorePage> {
                             padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
                             child: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.location_on,
                                   color: Colors.white,
                                   size: 26,
@@ -170,7 +176,7 @@ class _MorePageState extends State<MorePage> {
                                 Expanded(
                                   child: Text(
                                     'Nos coordonnées',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.white,
@@ -179,8 +185,8 @@ class _MorePageState extends State<MorePage> {
                                 ),
                                 AnimatedRotation(
                                   turns: _showCoordinates ? 0.5 : 0,
-                                  duration: Duration(milliseconds: 300),
-                                  child: Icon(
+                                  duration: const Duration(milliseconds: 300),
+                                  child: const Icon(
                                     Icons.keyboard_arrow_down,
                                     color: Colors.white70,
                                     size: 26,
@@ -192,25 +198,29 @@ class _MorePageState extends State<MorePage> {
                         ),
                       ),
                     ),
-                    // Affichage des coordonnées si _showCoordinates est vrai
-                    if (_showCoordinates)
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.only(bottom: 20),
-                        padding: const EdgeInsets.all(20),
-                        decoration: BoxDecoration(
-                          color: Color(0xFF4c6c7b).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(18),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black12,
-                              blurRadius: 6,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Text(
-                          '''CDO FORMATION SAS
+                    // Début de l'animation pour les coordonnées
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 400), // Durée de l'animation
+                      curve: Curves.easeInOutCubic, // Courbe d'animation élégante
+                      alignment: Alignment.topCenter, // Anime depuis le haut
+                      child: _showCoordinates
+                          ? Container(
+                              width: double.infinity,
+                              margin: const EdgeInsets.only(bottom: 20),
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF4c6c7b).withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(18),
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black12,
+                                    blurRadius: 6,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: const Text(
+                                '''CDO FORMATION SAS
 
 4, rue du couvent
 41200 Millançay
@@ -225,14 +235,18 @@ SIRET: 801 400 219 00011
 APE: 8559A
 
 N°OF: 24 41 01565 41''',
-                          style: TextStyle(
-                            fontSize: 15,
-                            height: 1.4,
-                            color: Color(0xFF4c6c7b),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  height: 1.4,
+                                  color: Color(0xFF4c6c7b),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            )
+                          : const SizedBox.shrink(), // Widget vide quand caché
+                    ),
+                    // Fin de l'animation pour les coordonnées
+                    const SizedBox(height: 50),
                   ],
                 ),
               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../pages/accueil_page.dart';
 import '../pages/services_page.dart';
-import '../pages/more_page.dart';  // Ta page "More"
+import '../pages/more_page.dart';  
 
 import '../widgets/bottom_nav_bar.dart';
 
@@ -24,7 +24,7 @@ class _MainNavigationState extends State<MainNavigation> {
       AccueilPage(
         onNavigateToServices: () {
           setState(() {
-            _selectedIndex = 1; // Navigue vers la page Services
+            _selectedIndex = 1; 
           });
         },
       ),

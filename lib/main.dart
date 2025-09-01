@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
 import 'pages/splash_screen.dart';
-import 'pages/accueil_page.dart';    // Assure-toi que ce chemin est correct
-import 'pages/services_page.dart';   // Pareil ici
+import 'pages/accueil_page.dart';    
+import 'pages/services_page.dart';   
+
+// Pour gérer la taille de la fenêtre en desktop
+import 'dart:io';
+import 'package:window_size/window_size.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ====== DÉBUT DU CODE POUR LA TAILLE DE FENÊTRE (Desktop) ======
+if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+  setWindowTitle('CDO App');
+  setWindowMinSize(const Size(500, 896));  // taille min plus grande
+  setWindowMaxSize(Size.infinite);         // possibilité de redimensionner après
+  setWindowFrame(const Rect.fromLTWH(100, 100, 414, 896));  // position et taille initiale plus grande
+}
+// ====== FIN DU CODE POUR LA TAILLE DE FENÊTRE (Desktop) ======
+
+
   runApp(const MyApp());
 }
 
