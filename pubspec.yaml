@@ -2,7 +2,7 @@ name: cdo_test1
 description: "A new Flutter project."
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -43,6 +43,12 @@ flutter:
     - assets/header-logo.jpg
     - lib/logos/image55.png
     - lib/logos/reunion.jpg
+    - assets/form1.jpeg
+    - assets/form2.jpeg
+    - assets/form3.jpeg
+    - assets/form4.jpeg
+    - assets/form5.jpeg
+    
 
   fonts:
     - family: Poppins
