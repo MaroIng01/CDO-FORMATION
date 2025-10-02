@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'infos_pratiques_page.dart';
+import 'audit_conseils_page.dart';
+import 'faq_page.dart'; // <-- Ajoutez cette importation
 
 class MorePage extends StatefulWidget {
   const MorePage({super.key});
@@ -23,14 +26,31 @@ class _MorePageState extends State<MorePage> {
   }
 
   void _handleTap(BuildContext context, Map<String, dynamic> item) async {
+    final String title = item['title'];
+
+    // Gérer les pages natives
+    if (title == 'Infos pratiques') {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const InfosPratiquesPage()));
+      return;
+    }
+    if (title == 'Audit et conseils') {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const AuditConseilsPage()));
+      return;
+    }
+    // --- DÉBUT DE LA MODIFICATION ---
+    if (title == 'FAQ') {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const FaqPage()));
+      return;
+    }
+    // --- FIN DE LA MODIFICATION ---
+
+    // Gérer les liens externes
     final Map<String, String> externalLinks = {
-      'Audit et conseils': 'https://cdo-formation.fr/audit-v2.php',
-      'Infos pratiques': 'https://cdo-formation.fr/infos-pratiques-v2.php',
-      'FAQ': 'https://cdo-formation.fr/faq-v2.php',
       'Nous Contacter': 'https://cdo-formation.fr/contact-v2.php',
     };
-    if (externalLinks.containsKey(item['title'])) {
-      await openUrl(externalLinks[item['title']]!);
+
+    if (externalLinks.containsKey(title)) {
+      await openUrl(externalLinks[title]!);
     }
   }
 

@@ -1,9 +1,8 @@
 // lib/main.dart
 
+import 'package:cdo_test1/pages/main_navigation.dart';
 import 'package:flutter/material.dart';
 import 'pages/splash_screen.dart';
-import 'pages/accueil_page.dart';    
-import 'pages/services_page.dart';   
 
 // Pour gérer la taille de la fenêtre en desktop
 import 'dart:io';
@@ -15,8 +14,8 @@ void main() {
   // ====== DÉBUT DU CODE POUR LA TAILLE DE FENÊTRE (Desktop) ======
   if (Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
     setWindowTitle('CDO App');
-    setWindowMinSize(const Size(500, 896));  
-    setWindowMaxSize(Size.infinite);         
+    setWindowMinSize(const Size(500, 896));
+    setWindowMaxSize(Size.infinite);
     setWindowFrame(const Rect.fromLTWH(100, 100, 414, 896));
   }
   // ====== FIN DU CODE POUR LA TAILLE DE FENÊTRE (Desktop) ======
@@ -106,8 +105,8 @@ class MyApp extends StatelessWidget {
       ),
       home: const SplashScreen(),
       routes: {
-        '/accueil': (context) => const AccueilPage(),
-        '/services': (context) => const ServicesPage(),
+        // On définit une route nommée pour la page principale pour une navigation plus propre.
+        '/main': (context) => const MainNavigation(),
       },
     );
   }

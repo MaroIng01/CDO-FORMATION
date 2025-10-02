@@ -48,7 +48,11 @@ flutter:
     - assets/form3.jpeg
     - assets/form4.jpeg
     - assets/form5.jpeg
-    
+    - assets/5.jpg
+    - assets/13.jpg
+    - assets/Orléans.jpg
+    - assets/20.jpg
+    - assets/21.jpg
 
   fonts:
     - family: Poppins
